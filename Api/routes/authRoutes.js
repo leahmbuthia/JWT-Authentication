@@ -1,10 +1,10 @@
 import {Router} from 'express';
-import { signup } from '../controller/userController.js';
+import { login, signup } from '../controller/userController.js';
 
 const authRouter=Router();
 
 authRouter.post('/signup',signup );
-// authRouter.get('/users',getAllUser );
+authRouter.post('/login',login);
 
 
 export default authRouter;

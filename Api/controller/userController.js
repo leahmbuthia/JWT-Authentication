@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
+import { generateToken } from "../utils/authUtils.js";
+
 export const signup = async (req, res) => {
   try {
      // Destructure user details from the request body
@@ -23,3 +25,17 @@ export const signup = async (req, res) => {
     res.status(400).json({message: error});
   }
 };
+export const login = async(req,res) =>{
+  try {
+    const {email, password} = req.body
+
+const user = await User.findOne({email}) 
+if(!user){
+  throw new Error("User not found");
+}
+const token = generateToken(user);
+res.status(200).json({user: user, token: token});
+} catch (error) {
+    res.status(401).json({message: "invalid credentials"})
+  }
+}
